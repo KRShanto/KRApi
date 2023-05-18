@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: #1a202d;
+  color: white;
+}
+
+@import "utils/mixins";
+@import "utils/vars";
+
+@import "navbar";

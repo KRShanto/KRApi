@@ -1,0 +1,7 @@
+// generate a mixin which makes a text look like a gradient
+@mixin gradient-text($color) {
+  background: $color;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,60 @@
+#navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 10rem;
+
+  .logo {
+    text-decoration: none;
+
+    h1 {
+      @include gradient-text($linearColor);
+      font-size: 2.5rem;
+      font-family: sans-serif; // TODO: better font
+    }
+  }
+
+  .links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    a {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.672);
+      font-size: 1.2rem;
+      font-family: sans-serif;
+      font-weight: bold;
+      transition: 0.3s ease-in-out;
+
+      &:hover {
+        color: $mainColor;
+        text-shadow: 0 0 1rem $mainColorBackground;
+      }
+    }
+
+    a.active {
+      @include gradient-text($linearColor);
+      border-bottom: 2px solid $mainColor;
+    }
+
+    a.download {
+      @include gradient-text($linearColor);
+      border: 2px solid $mainColor;
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
+      transition: 0.3s ease-in-out;
+
+      &:hover {
+        background: $linearColor;
+        color: #fff;
+        text-shadow: none;
+        -webkit-background-clip: unset;
+        background-clip: unset;
+        -webkit-text-fill-color: unset;
+        box-shadow: 0 0 1rem $mainColorBackground;
+      }
+    }
+  }
+}
