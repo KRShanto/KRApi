@@ -18,7 +18,7 @@ pub async fn route(pool: web::Data<DbPool>, item: web::Json<UserNew>) -> HttpRes
     let new_user = item.into_inner();
 
     // Check if username or email already exists
-    let user_exists = web::block({
+    let user_exists_result = web::block({
         let new_user = new_user.clone();
         let mut db_connection = pool.get().unwrap();
 
@@ -30,11 +30,13 @@ pub async fn route(pool: web::Data<DbPool>, item: web::Json<UserNew>) -> HttpRes
         }
     });
 
-    match user_exists.await {
-        Ok(_) => {
-            return Response::already_exists()
-                .msg("Username or email already exists")
-                .send();
+    match user_exists_result.await {
+        Ok(user_exists) => {
+            if user_exists.is_ok() {
+                return Response::already_exists()
+                    .msg("Username or email already exists man")
+                    .send();
+            }
         }
         Err(e) => {
             server_error(e);

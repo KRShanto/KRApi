@@ -2,7 +2,7 @@ use actix_cors::Cors;
 use actix_web::middleware::Logger;
 use actix_web::web::Data;
 use actix_web::{App, HttpServer};
-use krapi::routes::{create_user_route, get_users_route};
+use krapi::routes::*;
 use krapi::utils::get_pool;
 
 // pub type Pool = r2d2::Pool<ConnectionManager<SqliteConnection>>;
@@ -27,6 +27,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(Data::new(pool.clone()))
             .service(get_users_route)
             .service(create_user_route)
+            .service(match_user_route)
     })
     .bind("localhost:8080")?
     .run()
