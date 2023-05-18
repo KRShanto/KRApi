@@ -28,13 +28,9 @@ export default function Home() {
             <FaDownload className="icon" />
             <p className="text">Download</p>
           </Link>
-          <Link href="/visualize">
-            <RiEyeLine className="icon" />
-            <p className="text">Visualize your Data</p>
-          </Link>
           <Link href="/docs">
             <IoDocumentTextOutline className="icon" />
-            <p className="text">Docs</p>
+            <p className="text">Documentation</p>
           </Link>
         </div>
       </div>

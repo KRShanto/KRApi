@@ -16,10 +16,7 @@ export default function Navbar() {
       name: "Docs",
       link: "/docs",
     },
-    {
-      name: "Visualize Data",
-      link: "/visualize",
-    },
+
     {
       name: "Github",
       link: "https://github.com/KRShanto/KRApi",
