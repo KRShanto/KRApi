@@ -29,6 +29,7 @@ async fn main() -> std::io::Result<()> {
             .service(create_user_route)
             .service(match_user_route)
             .service(update_password_route)
+            .service(update_user_route)
     })
     .bind("localhost:8080")?
     .run()

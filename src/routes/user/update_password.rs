@@ -1,15 +1,9 @@
-use crate::models::users::User;
 use crate::schema::users;
-use crate::utils::response::Response;
-use crate::utils::server_error;
 use crate::*;
-
-use actix_web::{post, web, HttpResponse};
 use argon2::{
     password_hash::{rand_core::OsRng, PasswordHash, PasswordHasher, PasswordVerifier, SaltString},
     Argon2,
 };
-use diesel::prelude::*;
 
 #[derive(Deserialize, Clone)]
 pub struct Password {

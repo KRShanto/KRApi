@@ -1,16 +1,9 @@
-use crate::models::users::{User, UserJson, UserNew};
 use crate::schema::users;
-use crate::utils::response::Response;
-use crate::utils::server_error;
-use crate::DbPool;
-
-use actix_web::{post, web, HttpResponse};
+use crate::*;
 use argon2::{
     password_hash::{rand_core::OsRng, PasswordHasher, SaltString},
     Argon2,
 };
-use diesel::dsl::insert_into;
-use diesel::prelude::*;
 
 #[post("/create-user")]
 pub async fn route(pool: web::Data<DbPool>, item: web::Json<UserNew>) -> HttpResponse {
@@ -60,7 +53,7 @@ pub async fn route(pool: web::Data<DbPool>, item: web::Json<UserNew>) -> HttpRes
     };
 
     let result = web::block(move || {
-        let insert_result = insert_into(crate::schema::users::table)
+        let insert_result = diesel::insert_into(crate::schema::users::table)
             .values(&new_user)
             .execute(&mut db_connection);
 

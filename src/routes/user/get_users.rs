@@ -1,12 +1,4 @@
-use crate::models::users::{User, UserJson};
-use crate::utils::response::Response;
-use crate::utils::server_error;
-use crate::DbPool;
-
-use actix_web::get;
-use actix_web::{web, HttpResponse};
-use diesel::prelude::*;
-use diesel::RunQueryDsl;
+use crate::*;
 
 #[get("/get-users")]
 pub async fn route(pool: web::Data<DbPool>) -> HttpResponse {
