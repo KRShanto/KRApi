@@ -30,7 +30,7 @@ pub async fn route(pool: web::Data<DbPool>) -> HttpResponse {
                         email: user.email,
                         img_url: user.img_url,
                         phone: user.phone,
-                        created_at: user.created_at.unwrap(),
+                        created_at: user.created_at,
                     })
                     .collect::<Vec<UserJson>>();
 

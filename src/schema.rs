@@ -4,11 +4,11 @@ diesel::table! {
     users (id) {
         id -> Integer,
         name -> Text,
-        username -> Nullable<Text>,
+        username -> Text,
         email -> Nullable<Text>,
         img_url -> Nullable<Text>,
         phone -> Nullable<Double>,
-        password -> Nullable<Text>,
-        created_at -> Nullable<Timestamp>,
+        password -> Text,
+        created_at -> Timestamp,
     }
 }

@@ -6,31 +6,30 @@ use serde::{Deserialize, Serialize};
 pub struct User {
     pub id: i32,
     pub name: String,
-    pub username: Option<String>,
+    pub username: String,
     pub email: Option<String>,
     pub img_url: Option<String>,
     pub phone: Option<f64>,
-    pub password: Option<String>,
-    pub created_at: Option<NaiveDateTime>,
+    pub password: String,
+    pub created_at: NaiveDateTime,
 }
 
 #[derive(Debug, Serialize, Deserialize, Insertable, Clone)]
-#[table_name = "users"]
+#[diesel(table_name = users)]
 pub struct UserNew {
     pub name: String,
-    pub username: Option<String>,
+    pub username: String,
     pub email: Option<String>,
     pub img_url: Option<String>,
     pub phone: Option<f64>,
-    pub password: Option<String>,
-    pub created_at: Option<NaiveDateTime>,
+    pub password: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct UserJson {
     pub id: i32,
     pub name: String,
-    pub username: Option<String>,
+    pub username: String,
     pub email: Option<String>,
     pub img_url: Option<String>,
     pub phone: Option<f64>,

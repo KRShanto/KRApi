@@ -42,25 +42,18 @@ pub async fn route(pool: web::Data<DbPool>, item: web::Json<UserNew>) -> HttpRes
     }
 
     // Hash password
-    let hash = {
-        if let Some(password) = &new_user.password {
-            let argon2 = Argon2::default();
-            let salt = SaltString::generate(&mut OsRng);
 
-            // hashed password
-            let password_hash = argon2
-                .hash_password(password.as_bytes(), &salt)
-                .unwrap()
-                .to_string();
+    let argon2 = Argon2::default();
+    let salt = SaltString::generate(&mut OsRng);
 
-            password_hash
-        } else {
-            String::from("")
-        }
-    };
+    // hashed password
+    let hash = argon2
+        .hash_password(new_user.password.as_bytes(), &salt)
+        .unwrap()
+        .to_string();
 
     let new_user = UserNew {
-        password: Some(hash),
+        password: hash,
         ..new_user
     };
 
@@ -87,7 +80,7 @@ pub async fn route(pool: web::Data<DbPool>, item: web::Json<UserNew>) -> HttpRes
             email: user.email,
             img_url: user.img_url,
             phone: user.phone,
-            created_at: user.created_at.unwrap(),
+            created_at: user.created_at,
         })
     });
 
