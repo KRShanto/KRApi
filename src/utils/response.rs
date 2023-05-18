@@ -19,7 +19,7 @@ pub enum ResponseType {
 pub struct Response {
     #[serde(rename = "type")]
     response_type: ResponseType,
-    message: Option<String>,
+    msg: Option<String>,
     data: Option<serde_json::Value>,
 }
 
@@ -27,7 +27,7 @@ impl Response {
     pub fn new(response_type: ResponseType) -> Self {
         Self {
             response_type,
-            message: None,
+            msg: None,
             data: None,
         }
     }
@@ -35,7 +35,7 @@ impl Response {
     pub fn already_exists() -> Self {
         Self {
             response_type: ResponseType::AlreadyExists,
-            message: None,
+            msg: None,
             data: None,
         }
     }
@@ -43,7 +43,7 @@ impl Response {
     pub fn success() -> Self {
         Self {
             response_type: ResponseType::Success,
-            message: None,
+            msg: None,
             data: None,
         }
     }
@@ -51,7 +51,7 @@ impl Response {
     pub fn not_found() -> Self {
         Self {
             response_type: ResponseType::NotFound,
-            message: None,
+            msg: None,
             data: None,
         }
     }
@@ -59,7 +59,7 @@ impl Response {
     pub fn server_error() -> Self {
         Self {
             response_type: ResponseType::ServerError,
-            message: None,
+            msg: None,
             data: None,
         }
     }
@@ -67,7 +67,7 @@ impl Response {
     pub fn no_permission() -> Self {
         Self {
             response_type: ResponseType::NoPermission,
-            message: None,
+            msg: None,
             data: None,
         }
     }
@@ -75,7 +75,7 @@ impl Response {
     pub fn invalid_input() -> Self {
         Self {
             response_type: ResponseType::InvalidInput,
-            message: None,
+            msg: None,
             data: None,
         }
     }
@@ -83,7 +83,7 @@ impl Response {
     pub fn unauthorized() -> Self {
         Self {
             response_type: ResponseType::Unauthorized,
-            message: None,
+            msg: None,
             data: None,
         }
     }
@@ -91,13 +91,13 @@ impl Response {
     pub fn incorrect_password() -> Self {
         Self {
             response_type: ResponseType::IncorrectPassword,
-            message: None,
+            msg: None,
             data: None,
         }
     }
 
     pub fn msg(mut self, message: &str) -> Self {
-        self.message = Some(message.to_string());
+        self.msg = Some(message.to_string());
         self
     }
 
