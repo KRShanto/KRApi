@@ -15,12 +15,12 @@ export default function Home() {
         </h1>
 
         <p className="description">
-          Empower your frontend development with KR Api, the game-changing
-          solution for generating mock APIs at your command. With our Rust Web
-          Server, you can effortlessly simulate and manipulate your testing
-          environment. Take control of your projects, iterate with confidence,
-          and unlock new levels of efficiency. Revolutionize your frontend
-          development journey with the power of KR Api.
+          Free and open source mock API server for quick and easy mocking of
+          RESTful APIs, with zero coding required.
+          <br />
+          <br />
+          Get, create, update, and delete mock data using a simple and easy to
+          use REST API. Its built with Rust, and is blazing fast.
         </p>
 
         <div className="options">
