@@ -1,3 +1,4 @@
+use crate::*;
 use clap::{Parser, Subcommand};
 
 /*
@@ -20,13 +21,13 @@ pub enum SubCommand {
     /// Start the server
     Start {
         /// Port to listen on
-        #[clap(short, long, default_value = "8080")]
+        #[clap(short, long, default_value = DEFAULT_PORT_STR)]
         port: u16,
     },
     /// Generate random users
     Generate {
         /// Number of data to generate
-        #[clap(short, long, default_value = "10")]
+        #[clap(short, long, default_value = DEFAULT_MOCK_DATA_LEN_STR)]
         len: u32,
 
         /// Generate users

@@ -1,9 +1,6 @@
 use crate::schema::users;
+use crate::utils::hash::hash_password;
 use crate::*;
-use argon2::{
-    password_hash::{rand_core::OsRng, PasswordHasher, SaltString},
-    Argon2,
-};
 
 #[post("/create-user")]
 pub async fn route(pool: web::Data<DbPool>, item: web::Json<UserNew>) -> HttpResponse {
@@ -36,16 +33,7 @@ pub async fn route(pool: web::Data<DbPool>, item: web::Json<UserNew>) -> HttpRes
         }
     }
 
-    // Hash password
-
-    let argon2 = Argon2::default();
-    let salt = SaltString::generate(&mut OsRng);
-
-    // hashed password
-    let hash = argon2
-        .hash_password(new_user.password.as_bytes(), &salt)
-        .unwrap()
-        .to_string();
+    let hash = hash_password(&new_user.password);
 
     let new_user = UserNew {
         password: hash,

@@ -6,16 +6,16 @@ pub fn establish_connection() -> DbPool {
     let db_path = if cfg!(debug_assertions) {
         // On debug, use the working directory
         format!(
-            "{}{}",
+            "{}/{}",
             std::env::current_dir().unwrap().to_str().unwrap(),
-            "/krapi.sqlite"
+            DATABASE_PATH
         )
     } else {
         // On release, use user's home directory
         format!(
             "{}/.config/{}",
             home_dir().unwrap().to_str().unwrap(),
-            "krapi.sqlite"
+            DATABASE_PATH
         )
     };
 

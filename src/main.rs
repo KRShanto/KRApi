@@ -5,7 +5,7 @@ use actix_web::{App, HttpServer};
 use clap::Parser;
 use krapi::cli::{Cli, SubCommand};
 use krapi::routes::*;
-use krapi::utils::{establish_connection, run_migrations};
+use krapi::utils::{establish_connection, generate_users, run_migrations};
 use log::info;
 use std::env;
 
@@ -32,15 +32,20 @@ async fn main() {
             posts,
             todos,
         } => {
-            println!("Generate {} data", len);
             if users {
-                println!("Generate users");
-            }
-            if posts {
+                println!("Generating {} users", len);
+
+                let result = generate_users(len, establish_connection()).await;
+                if result.is_ok() {
+                    println!("Generated {} users successfully :)", len);
+                }
+            } else if posts {
                 println!("Generate posts");
-            }
-            if todos {
+            } else if todos {
                 println!("Generate todos");
+            } else {
+                println!("Nothing to generate");
+                println!("Use --users, --posts or --todos")
             }
         }
         SubCommand::Docs {
