@@ -40,6 +40,6 @@ next-env.d.ts
 /target
 
 # manually
-/sqliteDB.db
+/krapi.sqlite
 .env
 

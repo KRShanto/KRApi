@@ -5,7 +5,7 @@ use actix_web::{App, HttpServer};
 use clap::Parser;
 use krapi::cli::{Cli, SubCommand};
 use krapi::routes::*;
-use krapi::utils::get_pool;
+use krapi::utils::{establish_connection, run_migrations};
 use log::info;
 use std::env;
 
@@ -13,9 +13,10 @@ use std::env;
 async fn main() {
     dotenv::dotenv().ok();
     env::set_var("RUST_LOG", "krapi");
+
     // on debug mode, we want to see the logs
     if cfg!(debug_assertions) {
-        env::set_var("RUST_LOG", "actix_web,krapi");
+        env::set_var("RUST_LOG", "actix_web=info,error,debug,warn,krapi");
     }
     env_logger::init();
 
@@ -62,7 +63,11 @@ async fn main() {
 }
 
 async fn start_server(port: u16) -> std::io::Result<()> {
-    let pool = get_pool();
+    // Get the connection
+    let connection = establish_connection();
+
+    // run the pending migrations
+    run_migrations(&mut connection.get().unwrap()).unwrap();
 
     info!("Starting server at: http://localhost:{}", port);
 
@@ -76,13 +81,14 @@ async fn start_server(port: u16) -> std::io::Result<()> {
                     .allow_any_method()
                     .supports_credentials(),
             )
-            .app_data(Data::new(pool.clone()))
+            .app_data(Data::new(connection.clone()))
             // users
             .service(get_users_route)
             .service(create_user_route)
             .service(match_user_route)
             .service(update_password_route)
             .service(update_user_route)
+            .service(get_user_route)
             // greet
             .service(greet_route)
     })
