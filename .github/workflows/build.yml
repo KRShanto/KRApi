@@ -16,6 +16,18 @@ jobs:
         rust: [stable]
 
     steps:
+      - name: Increase resource limits
+        run: |
+          sudo sysctl -w vm.max_map_count=262144
+          ulimit -n 4096
+
+      - name: Enable swap memory
+        run: |
+          sudo fallocate -l 2G /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -39,7 +51,7 @@ jobs:
           fi
 
       - name: Build project
-        run: cargo build --release
+        run: RUST_BACKTRACE=1 cargo build --release
 
       - name: Create release
         id: create_release
