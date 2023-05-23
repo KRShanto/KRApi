@@ -1,13 +1,16 @@
 use crate::*;
 use fake::faker::internet::raw::*;
 use fake::faker::name::raw::*;
-// use fake::faker::phone_number::en::*;
 use fake::locales::EN;
 use fake::Fake;
 
 use super::hash::hash_password;
 
+/// Generate users
+///
+/// This function will generate `len` number of users and insert them into the database.
 pub async fn generate_users(len: u32, conn: DbPool) -> Result<Vec<User>, ()> {
+    // Generate users
     let generated_users = (0..len)
         .map(|_| UserNew {
             name: Name(EN).fake(),
@@ -21,6 +24,7 @@ pub async fn generate_users(len: u32, conn: DbPool) -> Result<Vec<User>, ()> {
 
     let mut db_connection = conn.get().unwrap();
 
+    // Insert users into the database
     let result = web::block(move || {
         let insert_result = diesel::insert_into(crate::schema::users::table)
             .values(&generated_users)
@@ -39,6 +43,7 @@ pub async fn generate_users(len: u32, conn: DbPool) -> Result<Vec<User>, ()> {
             .load::<User>(&mut db_connection)
     });
 
+    // Return the users
     match result.await {
         Ok(users_result) => match users_result {
             Ok(users) => Ok(users),

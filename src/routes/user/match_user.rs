@@ -11,7 +11,66 @@ pub struct MatchUser {
     pub password: String,
 }
 
-#[post("/match-user")]
+/// Verify the user's password
+///
+/// ## Route
+///
+/// `POST` localhost:8090/verify-user
+///
+/// ## Body
+///
+/// ```json
+/// {
+///     "username": string,
+///     "password": string
+/// }
+/// ```
+///
+/// ## Returns
+///
+/// - If successful, returns [`ResponseType::Success`](crate::utils::response::ResponseType::Success).
+///
+/// - If user not found, returns [`ResponseType::NotFound`](crate::utils::response::ResponseType::NotFound).
+///
+/// - If password is incorrect, returns [`ResponseType::IncorrectPassword`](crate::utils::response::ResponseType::IncorrectPassword).
+///
+/// - If any error occurs, returns [`ResponseType::ServerError`](crate::utils::response::ResponseType::ServerError).
+///
+/// ## Example
+///
+/// First you need to create a user. See [`create_user`](crate::routes::create_user_route) route.
+///
+/// Lets say you have a user with username `shanto` and password `admin005`.
+///
+/// Javascript Fetch API
+///
+/// ```js
+/// const res = await fetch("http://localhost:8090/verify-user", {
+///   method: "POST",
+///   headers: {
+///    "Content-Type": "application/json",
+/// },
+///   body: JSON.stringify({
+///     username: "shanto",
+///     password: "admin005"
+///  }),
+/// });
+///
+/// const json = await res.json();
+/// const data = json.data;
+///
+/// console.log(data);
+/// ```
+///
+/// ## Example Response
+///
+/// ```json
+/// {
+///   "type": "Success",
+///   "msg": "Login successful"
+/// }
+/// ```
+#[post("/verify-user")]
 pub async fn route(pool: web::Data<DbPool>, item: web::Json<MatchUser>) -> HttpResponse {
     let user_info = item.into_inner();
 
@@ -31,7 +90,7 @@ pub async fn route(pool: web::Data<DbPool>, item: web::Json<MatchUser>) -> HttpR
         Ok(user_result) => match user_result {
             Ok(user) => user,
             Err(_) => {
-                return Response::incorrect_password()
+                return Response::not_found()
                     .msg("Username or password is incorrect")
                     .send();
             }
@@ -43,7 +102,6 @@ pub async fn route(pool: web::Data<DbPool>, item: web::Json<MatchUser>) -> HttpR
     };
 
     // Verify password
-
     let password = user_info.password.as_bytes();
     let hash = PasswordHash::new(&user.password).unwrap();
 

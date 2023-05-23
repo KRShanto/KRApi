@@ -2,6 +2,11 @@ use crate::*;
 use diesel::r2d2::{self, ConnectionManager};
 use home::home_dir;
 
+/// Establishes a connection to the database.
+///
+/// On debug, the database is created in the working directory.
+///
+/// On release, the database is created in the user's home directory.
 pub fn establish_connection() -> DbPool {
     let db_path = if cfg!(debug_assertions) {
         // On debug, use the working directory

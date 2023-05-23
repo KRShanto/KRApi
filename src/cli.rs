@@ -1,14 +1,6 @@
 use crate::*;
 use clap::{Parser, Subcommand};
 
-/*
-- start
-- docs
-- docs --users
-- version
-- generate --users --len=30
- */
-
 #[derive(Parser)]
 #[command(author, version, about)]
 pub struct Cli {

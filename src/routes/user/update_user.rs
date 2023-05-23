@@ -10,7 +10,78 @@ pub struct UserUpdate {
     img_url: Option<String>,
 }
 
-// Update the user
+/// Update the user
+///
+/// This route will update these fields:
+///
+/// - `name`
+/// - `email`
+/// - `phone`
+/// - `img_url`
+///
+/// For updating the password, see [`update_password`](crate::routes::update_password_route) route.
+///
+/// ## Route
+///
+/// `POST` localhost:8090/update-user
+///
+/// ## Body
+///
+/// ```json
+/// {
+///    "username": string,
+///    "name": string (optional),
+///    "email": string (optional),
+///    "phone": number (optional),
+///    "img_url": string (optional)
+/// }
+/// ```
+///
+/// The `username` field is required. This is used to query the user. Whichever field you want to update, just add it to the body.
+///
+/// ## Returns
+///
+/// - If successful, returns [`ResponseType::Success`](crate::utils::response::ResponseType::Success).
+///
+/// - If user not found, returns [`ResponseType::NotFound`](crate::utils::response::ResponseType::NotFound).
+///
+/// - If any error occurs, returns [`ResponseType::ServerError`](crate::utils::response::ResponseType::ServerError).
+///
+/// ## Example
+///
+/// First you need to create a user. See [`create_user`](crate::routes::create_user_route) route.
+///
+/// Lets say you have a user with username `shanto` and password `admin005` and email `shanto@xyz.com`.
+///
+/// Javascript Fetch API
+///
+/// ```js
+/// const res = await fetch("http://localhost:8090/update-user", {
+///   method: "POST",
+///   headers: {
+///     "Content-Type": "application/json",
+///   },
+///   body: JSON.stringify({
+///     username: "shanto",
+///     email: "shanto@abc.com",
+///  }),
+/// });
+///
+/// const json = await res.json();
+/// const data = json.data;
+///
+/// console.log(data);
+/// ```
+/// ## Example Response
+///
+/// ```json
+/// {
+///    "type": "Success",
+///    "msg": "Update successful"
+/// }
+/// ```
+///
+/// Now if you query the user using [`get_user`](crate::routes::get_user_route) route, you will see that the email has been updated.
 #[post("/update-user")]
 pub async fn route(pool: Data<DbPool>, item: Json<UserUpdate>) -> HttpResponse {
     let user_info = item.into_inner();
@@ -71,7 +142,7 @@ pub async fn route(pool: Data<DbPool>, item: Json<UserUpdate>) -> HttpResponse {
 
     match user_update.await {
         Ok(user_result) => match user_result {
-            Ok(_) => Response::success().send(),
+            Ok(_) => Response::success().msg("Update successful").send(),
             Err(e) => {
                 server_error(e);
                 Response::server_error().send()

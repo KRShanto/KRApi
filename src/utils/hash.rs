@@ -3,6 +3,7 @@ use argon2::{
     Argon2,
 };
 
+/// Hash the password
 pub fn hash_password(password: impl AsRef<str>) -> String {
     let argon2 = Argon2::default();
     let salt = SaltString::generate(&mut OsRng);

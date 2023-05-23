@@ -12,6 +12,67 @@ pub struct Password {
     new_password: String,
 }
 
+/// Update the user's password
+///
+/// ## Route
+///
+/// `POST` localhost:8090/update-password
+///
+/// ## Body
+///
+/// ```json
+/// {
+///    "username": string,
+///    "password": string,
+///    "new_password": string
+/// }
+/// ```
+///
+/// ## Returns
+///
+/// - If successful, returns [`ResponseType::Success`](crate::utils::response::ResponseType::Success).
+///
+/// - If user not found, returns [`ResponseType::NotFound`](crate::utils::response::ResponseType::NotFound).
+///
+/// - If password is incorrect, returns [`ResponseType::IncorrectPassword`](crate::utils::response::ResponseType::IncorrectPassword).
+///
+/// - If any error occurs, returns [`ResponseType::ServerError`](crate::utils::response::ResponseType::ServerError).
+///
+/// ## Example
+///
+/// First you need to create a user. See [`create_user`](crate::routes::create_user_route) route.
+///
+/// Lets say you have a user with username `shanto` and password `admin005`.
+///
+/// Javascript Fetch API
+///
+/// ```js
+/// const res = await fetch("http://localhost:8090/update-password", {
+///   method: "POST",
+///   headers: {
+///     "Content-Type": "application/json",
+/// },
+///   body: JSON.stringify({
+///      username: "shanto",
+///      password: "admin005",
+///      new_password: "admin006"
+///  }),
+/// });
+///
+/// const json = await res.json();
+/// const data = json.data;
+///
+/// console.log(data);
+/// ```
+///
+/// ## Example Response
+///
+/// ```json
+/// {
+///    "type": "Success",
+///    "msg": "Password updated successfully"
+/// }
+/// ```
 #[post("/update-password")]
 pub async fn route(pool: web::Data<DbPool>, item: web::Json<Password>) -> HttpResponse {
     let user_info = item.into_inner();
@@ -32,6 +93,7 @@ pub async fn route(pool: web::Data<DbPool>, item: web::Json<Password>) -> HttpRe
         Ok(user_result) => match user_result {
             Ok(user) => user,
             Err(_) => {
+                // user not found
                 return Response::not_found().msg("User not found").send();
             }
         },
