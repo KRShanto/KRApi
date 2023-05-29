@@ -1,3 +1,5 @@
+#![doc = include_str!("../README.md")]
+
 #[macro_use]
 extern crate diesel;
 
@@ -15,17 +17,16 @@ pub mod routes;
 pub mod schema;
 pub mod utils;
 
-pub use actix_web::{
+pub(crate) use actix_web::{
     get, post,
-    web::{self, Data, Json, Path, Query},
+    web::{self, Data, Json, Path},
     HttpResponse,
 };
-pub use diesel::prelude::*;
-pub use diesel::SqliteConnection;
-pub use serde::{Deserialize, Serialize};
-pub use utils::response::Response;
-pub use utils::server_error;
-
-pub use models::users::*;
+pub(crate) use diesel::prelude::*;
+pub(crate) use diesel::SqliteConnection;
+pub(crate) use models::users::*;
+pub(crate) use serde::{Deserialize, Serialize};
+pub(crate) use utils::response::Response;
+pub(crate) use utils::server_error;
 
 pub type DbPool = diesel::r2d2::Pool<diesel::r2d2::ConnectionManager<SqliteConnection>>;
