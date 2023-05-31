@@ -1,0 +1,71 @@
+.doc-nav {
+  color: #fdfeffab;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  border-right: 1px solid #fdfeff4e;
+  height: 90vh;
+  overflow-y: scroll;
+  padding: 2rem 0;
+
+  .active {
+    @include gradient-text($linearColor);
+  }
+
+  .chapter {
+    padding: 0 1rem;
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .title {
+        padding: 0.5rem 1rem;
+        width: 85%;
+        transition: 0.3s ease-in-out;
+        border-radius: 0.5rem;
+
+        &:hover {
+          background-color: #fdfeff15;
+        }
+      }
+
+      .toggle {
+        width: 15%;
+        font-size: 3rem;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: #fdfeffab;
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0.5rem;
+
+        &:hover {
+          color: #fdfeff;
+          background-color: #fdfeff15;
+        }
+      }
+    }
+
+    .pages {
+      display: flex;
+      flex-direction: column;
+      padding: 0 1rem;
+
+      .page {
+        padding: 0.5rem 0;
+        transition: 0.3s ease-in-out;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+
+        &:hover {
+          background-color: #fdfeff15;
+        }
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 3rem; // TODO
+  gap: 3rem;
 
   .hero {
     display: flex;
@@ -27,11 +27,9 @@
     .description {
       font-size: 1.3rem;
       text-align: center;
-      font-family: sans-serif;
       width: 60%;
       color: #a0aec0;
       font-family: "Poppins", sans-serif;
-      //   font-weight: 600;
       word-spacing: 0.2rem;
     }
 
@@ -73,7 +71,6 @@
 
         .text {
           font-size: 1.5rem;
-          //   color: #a0aec0;
           font-family: sans-serif;
           font-weight: bold;
         }
